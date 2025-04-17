@@ -7,6 +7,11 @@
     --text-color: #333;
     --card-bg: #ffffff;
     --timeline-line-color: #a5d6a7; /* Verde più chiaro per la linea */
+    --placeholder-bg: #e0e0e0; /* Grigio per placeholder immagini */
+}
+
+html {
+    scroll-behavior: smooth; /* Mantenuto se serve per scroll interni, ma ora navighiamo pagine */
 }
 
 body {
@@ -16,13 +21,13 @@ body {
     background-color: var(--light-bg);
     color: var(--text-color);
     line-height: 1.7;
-    display: flex; /* Per far sì che il footer stia in basso */
-    flex-direction: column; /* Dispone gli elementi verticalmente */
-    min-height: 100vh; /* Altezza minima pari alla viewport */
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
     overflow-x: hidden;
 }
 
-/* Header Stiloso (Comune a tutte le pagine) */
+/* Header (Comune a tutte le pagine) */
 header {
     background: linear-gradient(135deg, var(--primary-color), var(--dark-green));
     color: white;
@@ -30,7 +35,7 @@ header {
     padding: 2.5em 1em;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
     border-bottom: 3px solid var(--secondary-color);
-    width: 100%; /* Occupa tutta la larghezza */
+    width: 100%;
     box-sizing: border-box;
 }
 
@@ -50,68 +55,82 @@ header h2 {
 
 /* Contenitore Principale (Comune) */
 .container {
-    max-width: 900px;
-    margin: 40px auto; /* Spazio sopra/sotto e centrato */
+    max-width: 950px;
+    margin: 40px auto;
     padding: 20px;
-    flex-grow: 1; /* Fa espandere il contenuto principale */
+    flex-grow: 1;
     width: 100%;
     box-sizing: border-box;
 }
 
-/* Introduzione (Solo su index.html) */
-.introduction {
-    background-color: var(--card-bg);
-    border-radius: 12px;
-    padding: 25px 30px;
-    margin-bottom: 60px;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+/* Stile Card Generico (per Intro, Conclusioni, Consigli su index.html) */
+.info-section {
+     background-color: var(--card-bg);
+     border-radius: 12px;
+     padding: 25px 30px;
+     margin-bottom: 40px;
+     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.07);
+     border-left: 6px solid var(--secondary-color); /* Bordo arancione per queste sezioni */
+}
+.info-section h2 {
+      margin-top: 0;
+      color: var(--secondary-color); /* Titolo arancione */
+      font-size: 1.8em;
+      font-weight: 600;
+      margin-bottom: 15px;
+}
+.info-section p, .info-section ul {
+      font-size: 1.05em;
+      color: #555;
+}
+.info-section ul {
+     padding-left: 20px;
+     list-style: disc;
+     margin-top: 10px;
+}
+.info-section li {
+     margin-bottom: 8px;
+}
+.info-section strong { /* Evidenzia parole chiave nei consigli */
+     color: var(--dark-green);
+}
+.info-section .contact-person { /* Per il nome nell'intro */
+      font-weight: 600;
+      color: var(--dark-green);
+      margin-top: 10px;
+      display: block;
+}
+
+/* Sezione Timeline Navigation (Solo su index.html) */
+#timeline-nav {
+    margin-bottom: 50px;
+    padding: 20px 0;
     text-align: center;
-    border-left: 6px solid var(--secondary-color);
 }
-
-.introduction h3 {
-     margin-top: 0;
-     color: var(--secondary-color);
+#timeline-nav h2 {
      font-size: 1.8em;
-     font-weight: 600;
-     margin-bottom: 15px;
+     color: var(--dark-green);
+     margin-bottom: 30px;
 }
 
-/* Animazione (Usata in index.html) */
-@keyframes fadeInSlideUp {
-    from { opacity: 0; transform: translateY(20px); }
-    to { opacity: 1; transform: translateY(0); }
-}
-
-/* Timeline Container (Solo su index.html) */
 .timeline {
     position: relative;
     max-width: 800px;
     margin: 0 auto;
-    padding: 40px 0;
 }
-
-.timeline::after {
-    content: '';
-    position: absolute;
-    width: 4px;
+.timeline::after { /* Linea verticale */
+    content: ''; position: absolute; width: 4px;
     background-color: var(--timeline-line-color);
-    top: 0; bottom: 0; left: 50%;
-    margin-left: -2px; z-index: 1; border-radius: 2px;
+    top: 0; bottom: 0; left: 50%; margin-left: -2px;
+    z-index: 1; border-radius: 2px;
 }
 
 .timeline-item {
     padding: 10px 40px; position: relative;
     background-color: inherit; width: 50%;
     box-sizing: border-box; z-index: 2;
-    opacity: 0; animation: fadeInSlideUp 0.8s ease-out forwards;
 }
-.timeline-item:nth-child(1) { animation-delay: 0.1s; }
-.timeline-item:nth-child(2) { animation-delay: 0.3s; }
-.timeline-item:nth-child(3) { animation-delay: 0.5s; }
-.timeline-item:nth-child(4) { animation-delay: 0.7s; }
-
-.timeline-item::after {
+.timeline-item::after { /* Icona/Punto */
     content: attr(data-icon); font-size: 1.5em;
     position: absolute; width: 40px; height: 40px;
     right: -22px; background-color: var(--secondary-color);
@@ -119,12 +138,11 @@ header h2 {
     border-radius: 50%; z-index: 3; text-align: center;
     line-height: 40px; box-shadow: 0 0 0 3px var(--secondary-color);
 }
-
 .timeline-item.left { left: 0; }
 .timeline-item.right { left: 50%; }
 .timeline-item.left::after { left: -22px; }
 
-/* Link nella Timeline */
+/* Link nella Timeline (Navigazione) */
 .timeline-item a {
     display: block; text-decoration: none; color: inherit;
     border-radius: 10px; transition: transform 0.3s ease, box-shadow 0.3s ease;
@@ -137,26 +155,19 @@ header h2 {
 
 /* Contenuto nella Timeline (solo titolo) */
 .timeline-content {
-    padding: 25px 35px; background-color: var(--card-bg);
+    padding: 20px 25px; background-color: var(--card-bg);
     position: relative; border-radius: 10px;
     box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
     border-top: 4px solid var(--primary-color);
-    text-align: center; /* Centra il titolo */
+    text-align: center;
 }
-
 .timeline-content h3 {
-    margin: 0; /* Rimuovi margini per centrare meglio */
-    color: var(--dark-green);
-    font-size: 1.3em; /* Leggermente ridotto */
-    font-weight: 600;
-    /* Rimosso margin-bottom */
+    margin: 0; color: var(--dark-green);
+    font-size: 1.2em; font-weight: 600;
 }
-/* Nascondi il paragrafo nella timeline */
-.timeline-content p { display: none; }
-
 
 /* Stili per le Pagine di Dettaglio */
-.detail-content {
+.detail-content { /* Contenitore principale nelle pagine tappaX.html */
     background-color: var(--card-bg);
     border-radius: 12px;
     padding: 30px 40px;
@@ -164,36 +175,48 @@ header h2 {
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
     border-left: 6px solid var(--primary-color); /* Bordo Verde per dettagli */
 }
-
 .detail-content h2 {
-    margin-top: 0;
-    color: var(--dark-green);
-    font-size: 2em;
-    font-weight: 600;
-    margin-bottom: 20px;
+    margin-top: 0; color: var(--dark-green);
+    font-size: 2em; font-weight: 600; margin-bottom: 20px;
     border-bottom: 2px solid var(--timeline-line-color);
     padding-bottom: 10px;
 }
-
-.detail-content p {
-    font-size: 1.1em;
-    color: #444; /* Testo leggermente più scuro */
-    margin-bottom: 25px;
+.detail-content p, .detail-content ul {
+    font-size: 1.1em; color: #444; margin-bottom: 15px;
+}
+.detail-content ul {
+     padding-left: 20px; list-style: disc;
+}
+.detail-content li {
+     margin-bottom: 8px;
+}
+.detail-content strong { /* Evidenzia parole chiave */
+     color: var(--dark-green);
 }
 
+/* Placeholder per Immagini nelle pagine di dettaglio */
+.image-placeholder {
+    background-color: var(--placeholder-bg);
+    border: 2px dashed #aaa; border-radius: 8px;
+    min-height: 200px; display: flex;
+    align-items: center; justify-content: center;
+    text-align: center; color: #666; font-style: italic;
+    margin-top: 25px; margin-bottom: 15px; /* Aggiunto spazio sotto */
+}
+.image-placeholder img { /* Stile per l'immagine quando inserita */
+     max-width: 100%; max-height: 450px; /* Max altezza */
+     border-radius: 6px; display: block; margin: auto; /* Centra */
+}
+
+/* Pulsante Indietro nelle pagine di dettaglio */
 .back-button {
-    display: inline-block;
-    margin-top: 20px;
-    padding: 12px 25px;
-    background-color: var(--secondary-color);
-    color: white;
-    text-decoration: none;
-    border-radius: 8px;
-    font-weight: 600;
+    display: inline-block; margin-top: 20px;
+    padding: 12px 25px; background-color: var(--secondary-color);
+    color: white !important; /* Forza colore bianco */
+    text-decoration: none; border-radius: 8px; font-weight: 600;
     transition: background-color 0.3s ease, transform 0.2s ease;
     box-shadow: 0 2px 5px rgba(0,0,0,0.1);
 }
-
 .back-button:hover, .back-button:focus {
     background-color: #e68900; /* Arancione più scuro */
     transform: translateY(-2px);
@@ -202,15 +225,14 @@ header h2 {
 
 /* Footer (Comune) */
 footer {
-    text-align: center;
-    margin-top: auto; /* Spinge il footer in basso */
-    padding: 25px;
-    background-color: #e8f5e9;
-    color: #555;
-    font-size: 0.9em;
-    border-top: 1px solid #c8e6c9;
-    width: 100%;
-    box-sizing: border-box;
+    text-align: center; margin-top: auto; padding: 25px;
+    background-color: #e8f5e9; color: #555;
+    font-size: 0.9em; border-top: 1px solid #c8e6c9;
+    width: 100%; box-sizing: border-box;
+}
+footer .contact-person {
+     font-weight: 600; color: var(--dark-green);
+     margin-top: 5px; display: block;
 }
 
 /* Responsive Design */
@@ -218,23 +240,27 @@ footer {
     header h1 { font-size: 2.2em; }
     header h2 { font-size: 1.1em; }
 
+    .container { padding: 15px; margin: 20px auto; }
+
+    .info-section { padding: 20px 25px; }
+    .info-section h2 { font-size: 1.6em; }
+    .info-section p, .info-section ul { font-size: 1em; }
+
     /* Timeline su mobile */
-    .timeline::after { left: 30px; }
-    .timeline-item { width: 100%; padding-left: 80px; padding-right: 15px; }
+    .timeline::after { left: 20px; }
+    .timeline-item { width: 100%; padding-left: 60px; padding-right: 10px; }
     .timeline-item.left, .timeline-item.right { left: 0%; }
     .timeline-item.left::after, .timeline-item.right::after {
-        left: 8px; width: 35px; height: 35px;
-        line-height: 35px; font-size: 1.3em;
+        left: 0px; width: 35px; height: 35px; line-height: 35px;
+        font-size: 1.3em;
     }
-    .timeline-content { padding: 20px 25px; }
-    .timeline-content h3 { font-size: 1.2em; }
-    .timeline-item a:hover, .timeline-item a:focus {
-        transform: translateY(-5px);
-    }
+    .timeline-content { padding: 15px 20px; }
+    .timeline-content h3 { font-size: 1.1em; }
+    .timeline-item a:hover, .timeline-item a:focus { transform: none; box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1); }
 
     /* Dettagli su mobile */
     .detail-content { padding: 20px 25px; }
     .detail-content h2 { font-size: 1.6em; }
-    .detail-content p { font-size: 1em; }
+    .detail-content p, .detail-content ul { font-size: 1em; }
     .back-button { padding: 10px 20px; font-size: 0.9em; }
 }
